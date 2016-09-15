@@ -1,0 +1,111 @@
+Searching and Sorting Algorithms
+================================
+* We compare the performance (speed) of two algorithms by counting the number of instructions or operations in the two programs. Often, the number of operations is directly proportional to the number of data items the program operates on.
+* When comparing the performance of two (search or sorting) algorithms, we concentrate on two types of operations: data movements, or swaps, and comparisons.
+* There are 2 types of search algorithms; those that don't assume a list is in order and those that assume a list is in order.
+
+1. Search Algorithms
+====================
+
+Performance Measurement
+-----------------------
+For search algos, we only look at the number of comparisons, since we don't swap any values while searching. Often, when comparing performance, we look at three cases:
+- Best case: What's the fewest number of comparisons necessary to find an item?
+- Worst case: What's the most number of comparisons necessary to find an item?
+- Average case: On average, how many comparisons does it take to find an item in the list?
+
+Types
+-----
+i. Linear search
+----------------
+Look at each items in the list in turn, quitting once we find an item that matches the search term or once we've reached the end of the list. We return either the index at which the search term was found, or some indicator that the search term was not found.
+
+Algorithm
+---------
+for (each item in list)	{
+    compare search term to current item
+    if match
+	save index of matching item
+	break
+}
+return index of matching item, or -1 if item not found
+
+Performance
+-----------
+* Best case: This occurs when the search term is in the first slot in the array. No. of comparisons is 1.
+* Worst case: This occurs when the search term is in the last slot in the array, or is not in the array. No. of comparisons is equal to the size of the array.
+* Average case: On average, the search term will be somewhere in the middle of the array. No. of comparisons in this case is approximately N/2.
+In both the worst and average cases, the no. of comparisons is proportional to the no. of items in the array, N. Thus, we say in these 2 cases that the no. of comparisons is order N, or O(N) for short. For the best case, we say the no. of comparisons is order 1, or O(1) for short.
+
+Pros
+----
+* Works well in many cases, particularly if we don't know if our list is in order.
+
+Cons
+----
+* Can be slow. E.g. if N, the no. of items in our list is 1,000,000, then it can take a long time on average to find the search term in the list (on average, it will take 500,000 comparisons).
+* Performance doesn't improve even if list is sorted. This is true even if we modify linear search so that it stops searching the list once the items in the list are larger than the search term.
+
+ii. Binary Search
+-----------------
+Binary search exploits the ordering of a list. Each time we make a comparison, we eliminate half of the list, until we either find the search term or determine that the term is not in the list.
+We basically look at the middle item in the list by continuously breaking it into two equal halves till we find the search term, each time determining whether our search term is higher or lower than the middle item and eliminating the half that can't contain our search term. i.e. if search term is higher than middle item, eliminate lower half and vice-versa.
+
+Algorithm
+---------
+set first = 1, last = N, mid = N/2
+while (item not found and first < last)	{
+    compare search term to item at mid
+    if match
+	save index
+	break
+    else if search term is less than item at mid
+	set last = mid-1
+    else
+	set first = mid+1
+    set mid = (first+last)/2
+}
+return index of matching item, or -1 if not found
+
+Performance
+-----------
+* Best case: This occurs when we find the search term on the first try. In this case, the search term would be in the middle of the list. As with linear search, the best case for binary search is O(1).
+* Worst case: This occurs when the search term is not in the list, or when the search term is one item away from the middle of the list, or when the search term is the first or last item in the list. In general, anytime an algo involves dividing a list in half, the number of comparisons is O(log N). That is; 2**no. of comparisons = size of list.
+* Average case: This occurs when the search term is anywhere else in the list. No. of comparisons is same as worst case.
+
+Pros
+----
+* Faster and more efficient than linear search.
+* Assumes the list is already in sorted order (unfair advantage)
+
+There's not much difference between an O(N) and O(log N) algo when the size of the list, N, is small. As N grows large, the differences between these 2 functions, or algorithms, become more pronounced.
+Ideally, when talking about any algorithm, we want the no. of operations in the algo to increase as slowly as possible as N increases. The best-performing algo is O(1), which means the algo executes in constant time. There are very few algorithms for which this is true, so the next best algo is O(log N).
+
+2. Sorting Algorithms
+=====================
+
+Performance Measurement
+-----------------------
+This is determined by the no. of comparisons and swaps.
+
+Types
+-----
+i. Selection sort
+-----------------
+Put a list in order by placing each item in turn. That is, put the smallest item at the start of the list, then the next smallest at the second position in the list, and so on until the list is in order.
+
+Algorithm
+---------
+for i=0 to N-2	{
+    set smallest = i
+    for j=i+1 to N-1	{
+	compare list[smallest] to list[j]
+	if list[smallest] == list[j]
+	    smallest = j
+    }
+    swap list[i] and list[smallest]
+}
+
+Performance
+-----------
+* Best case: This occurs when the list is already sorted. No. of swaps is zero. No. of comparisons is O(N**2)

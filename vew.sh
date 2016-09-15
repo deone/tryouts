@@ -1,0 +1,2 @@
+VIRTUALENVWRAPPER_SCRIPT="$(which virtualenvwrapper.sh)"
+echo $VIRTUALENVWRAPPER_SCRIPT
